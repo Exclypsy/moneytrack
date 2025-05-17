@@ -1,5 +1,10 @@
 package sk.spsepo.moneytrack;
 
+import androidx.fragment.app.Fragment;
+import sk.spsepo.moneytrack.HomeFragment;
+import sk.spsepo.moneytrack.ChartFragment;
+import sk.spsepo.moneytrack.AddFragment;
+import sk.spsepo.moneytrack.SettingsFragment;
 import sk.spsepo.moneytrack.ProfileFragment;
 
 import android.content.Intent;
@@ -68,11 +73,25 @@ public class Home extends AppCompatActivity {
 
         com.google.android.material.bottomnavigation.BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
         bottomNav.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.nav_profile) {
+            int id = item.getItemId();
+            Fragment selectedFragment = null;
+
+            if (id == R.id.nav_home) {
+                selectedFragment = new HomeFragment();
+            } else if (id == R.id.nav_chart) {
+                selectedFragment = new ChartFragment();
+            } else if (id == R.id.nav_add) {
+                selectedFragment = new AddFragment();
+            } else if (id == R.id.nav_settings) {
+                selectedFragment = new SettingsFragment();
+            } else if (id == R.id.nav_profile) {
+                selectedFragment = new ProfileFragment();
+            }
+
+            if (selectedFragment != null) {
                 getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.homeContent, new ProfileFragment())
-                    .addToBackStack(null)
+                    .replace(R.id.homeContent, selectedFragment)
                     .commit();
                 return true;
             }
