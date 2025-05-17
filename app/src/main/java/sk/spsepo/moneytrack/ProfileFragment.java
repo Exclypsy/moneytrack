@@ -24,6 +24,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProfileFragment extends Fragment {
 
@@ -85,18 +89,18 @@ public class ProfileFragment extends Fragment {
         DocumentReference docRef = db.collection("users").document(user.getUid());
         docRef.get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists()) {
-                String name = documentSnapshot.getString("name");
-                String surname = documentSnapshot.getString("surname");
-                Long age = documentSnapshot.getLong("age");
-                String nickname = documentSnapshot.getString("nickname");
-                String photoUrl = documentSnapshot.getString("photoUrl");
+                String meno = documentSnapshot.getString("meno");
+                String prezyvka = documentSnapshot.getString("prezyvka");
+                String priezvisko = documentSnapshot.getString("priezvisko");
+                Long vek = documentSnapshot.getLong("vek");
+                String profileImageUrl = documentSnapshot.getString("profileImageUrl");
 
-                if (name != null) nameEditText.setText(name);
-                if (surname != null) surnameEditText.setText(surname);
-                if (age != null) ageEditText.setText(String.valueOf(age));
-                if (nickname != null) nicknameEditText.setText(nickname);
-                if (photoUrl != null && !photoUrl.isEmpty()) {
-                    Glide.with(this).load(photoUrl).circleCrop().into(profileImageView);
+                if (meno != null) nameEditText.setText(meno);
+                if (priezvisko != null) surnameEditText.setText(priezvisko);
+                if (vek != null) ageEditText.setText(String.valueOf(vek));
+                if (prezyvka != null) nicknameEditText.setText(prezyvka);
+                if (profileImageUrl != null && !profileImageUrl.isEmpty()) {
+                    Glide.with(this).load(profileImageUrl).circleCrop().into(profileImageView);
                 }
             }
         }).addOnFailureListener(e -> {
@@ -129,19 +133,24 @@ public class ProfileFragment extends Fragment {
             return;
         }
 
+        Map<String, Object> userData = new HashMap<>();
+        userData.put("meno", name);
+        userData.put("priezvisko", surname);
+        userData.put("vek", age);
+        userData.put("prezyvka", nickname);
+        // Ak chceš, pridaj aj ukladanie profileImageUrl
+
         DocumentReference docRef = db.collection("users").document(user.getUid());
 
-        docRef.update(
-                "name", name,
-                "surname", surname,
-                "age", age,
-                "nickname", nickname
-        ).addOnSuccessListener(aVoid -> {
-            Toast.makeText(getContext(), "Profil uložený", Toast.LENGTH_SHORT).show();
-        }).addOnFailureListener(e -> {
-            Toast.makeText(getContext(), "Nepodarilo sa uložiť profil", Toast.LENGTH_SHORT).show();
-            Log.e("ProfileFragment", "Firestore save error", e);
-        });
+        docRef.set(userData, SetOptions.merge())
+            .addOnSuccessListener(aVoid -> {
+                Toast.makeText(getContext(), "Profil uložený", Toast.LENGTH_SHORT).show();
+                Log.d("ProfileFragment", "Data uložené úspešne");
+            })
+            .addOnFailureListener(e -> {
+                Toast.makeText(getContext(), "Nepodarilo sa uložiť profil", Toast.LENGTH_SHORT).show();
+                Log.e("ProfileFragment", "Firestore save error", e);
+            });
 
         // Ak chceš, môžeš sem pridať upload obrázka do Firebase Storage a uložiť URL do Firestore
         // (upload obrázka zatiaľ nechávame mimo, len vyber a zobrazíme)
