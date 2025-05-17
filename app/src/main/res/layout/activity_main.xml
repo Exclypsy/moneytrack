@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="80dp" />
+        android:layout_marginTop="100dp" />
 
     <EditText
         android:id="@+id/emailEditText"
@@ -29,7 +29,7 @@
         android:layout_marginTop="140dp"
         android:background="@drawable/edittext_background"
         android:elevation="4dp"
-        android:hint="login/e-mail"
+        android:hint="Login/e-mail"
         android:inputType="textEmailAddress"
         android:padding="16dp"
         android:textColor="#000000"
@@ -44,7 +44,7 @@
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/edittext_background"
-        android:hint="password"
+        android:hint="Password"
         android:inputType="textPassword"
         android:padding="16dp"
         android:textColor="#000000"

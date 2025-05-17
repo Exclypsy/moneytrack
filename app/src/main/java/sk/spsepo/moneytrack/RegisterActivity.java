@@ -1,6 +1,7 @@
 package sk.spsepo.moneytrack;
 
 import android.os.Bundle;
+import android.content.Intent;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,6 +37,13 @@ public class RegisterActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.passwordEditText);
         confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText);
         registerButton = findViewById(R.id.registerButton);
+
+        ImageButton backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> {
+            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        });
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
