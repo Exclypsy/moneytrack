@@ -1,5 +1,7 @@
 package sk.spsepo.moneytrack;
 
+import sk.spsepo.moneytrack.ProfileFragment;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -62,6 +64,19 @@ public class Home extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        com.google.android.material.bottomnavigation.BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
+        bottomNav.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.nav_profile) {
+                getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.homeContent, new ProfileFragment())
+                    .addToBackStack(null)
+                    .commit();
+                return true;
+            }
+            return false;
         });
     }
 }
