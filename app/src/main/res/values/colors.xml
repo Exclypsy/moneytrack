@@ -7,4 +7,16 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="background">#FFFFFF</color>
+    <color name="background_black">#121212</color><!-- pozadie svetlé -->
+    <color name="textPrimary">#000000</color>      <!-- hlavným čierny text -->
+    <color name="textOnPrimary">#FFFFFF</color>
+    <color name="buttonGradientStart">#6200EE</color>
+    <color name="buttonGradientEnd">#3700B3</color>
+
+    <color name="black_text">#000000</color>
+    <color name="white_text">#FFFFFF</color>
+
+    <color name="black_text_secondary">#B3B3B3</color>
+    <color name="black_text_secondary_2">#CCCCCC</color>
 </resources>
