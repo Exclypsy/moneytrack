@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="colorOnPrimaryText" format="color" />
+    <attr name="background_secondary" format="color" />
+    <attr name="background_black_secondary" format="color" />
 </resources>

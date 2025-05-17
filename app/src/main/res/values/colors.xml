@@ -8,8 +8,13 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="background">#FFFFFF</color>
-    <color name="background_black">#121212</color><!-- pozadie svetlé -->
-    <color name="textPrimary">#000000</color>      <!-- hlavným čierny text -->
+    <color name="background_black">#121212</color>
+
+    <color name="background_secondary">#FFFFFF</color>
+    <color name="background_black_secondary">#2C2C2C</color>
+
+
+    <color name="textPrimary">#000000</color>
     <color name="textOnPrimary">#FFFFFF</color>
     <color name="buttonGradientStart">#6200EE</color>
     <color name="buttonGradientEnd">#3700B3</color>
