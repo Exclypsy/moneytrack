@@ -1,11 +1,15 @@
 package sk.spsepo.moneytrack;
 
+import sk.spsepo.moneytrack.R;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -91,26 +95,33 @@ public class HomeFragment extends Fragment {
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             TextView textView;
+            ImageView menuIcon;
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                textView = new TextView(itemView.getContext());
-                ((FrameLayout) itemView).addView(textView);
+                textView = itemView.findViewById(R.id.textViewTransaction);
+                menuIcon = itemView.findViewById(R.id.menuIcon);
 
-                Button deleteButton = new Button(itemView.getContext());
-                deleteButton.setText("Odstrániť");
-                ((FrameLayout) itemView).addView(deleteButton);
-                deleteButton.setOnClickListener(v -> {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        Transaction transaction = transactions.get(position);
-                        FirebaseFirestore.getInstance().collection("transactions").document(transaction.id)
-                            .delete()
-                            .addOnSuccessListener(aVoid -> {
-                                transactions.remove(position);
-                                notifyItemRemoved(position);
-                            });
-                    }
+                menuIcon.setOnClickListener(v -> {
+                    PopupMenu popup = new PopupMenu(itemView.getContext(), menuIcon);
+                    popup.getMenuInflater().inflate(R.menu.transaction_item_menu, popup.getMenu());
+                    popup.setOnMenuItemClickListener(item -> {
+                        if (item.getItemId() == R.id.action_delete) {
+                            int position = getAdapterPosition();
+                            if (position != RecyclerView.NO_POSITION) {
+                                Transaction transaction = transactions.get(position);
+                                FirebaseFirestore.getInstance().collection("transactions").document(transaction.id)
+                                    .delete()
+                                    .addOnSuccessListener(aVoid -> {
+                                        transactions.remove(position);
+                                        notifyItemRemoved(position);
+                                    });
+                            }
+                            return true;
+                        }
+                        return false;
+                    });
+                    popup.show();
                 });
             }
 
@@ -121,10 +132,7 @@ public class HomeFragment extends Fragment {
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            FrameLayout layout = new FrameLayout(parent.getContext());
-            layout.setLayoutParams(new FrameLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
+            View layout = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_transaction, parent, false);
             return new ViewHolder(layout);
         }
 
