@@ -23,6 +23,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Home extends AppCompatActivity {
 
@@ -47,7 +48,22 @@ public class Home extends AppCompatActivity {
         View headerView = navigationView.getHeaderView(0);
         TextView navUsername = headerView.findViewById(R.id.navHeaderUsername);
         if (user != null) {
-            navUsername.setText(user.getEmail());
+            FirebaseFirestore.getInstance().collection("users").document(user.getUid())
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists() && documentSnapshot.contains("prezyvka")) {
+                        String prezyvka = documentSnapshot.getString("prezyvka");
+                        navUsername.setText(prezyvka);
+                        emailTextView.setText(prezyvka);
+                    } else {
+                        navUsername.setText("Používateľ");
+                        emailTextView.setText("Používateľ");
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    navUsername.setText("Používateľ");
+                    emailTextView.setText("Používateľ");
+                });
         }
 
         // Navigation item selection
