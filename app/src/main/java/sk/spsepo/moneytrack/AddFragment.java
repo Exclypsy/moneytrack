@@ -5,6 +5,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -93,6 +96,7 @@ public class AddFragment extends Fragment {
         Button saveButton = view.findViewById(R.id.saveButton);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         saveButton.setOnClickListener(v -> {
             String date = inputDate.getText().toString().trim();
@@ -105,18 +109,44 @@ public class AddFragment extends Fragment {
                 return;
             }
 
-            Map<String, Object> data = new HashMap<>();
-            data.put("date", date);
-            data.put("category", category);
-            data.put("title", title);
-            data.put("amount", amount);
+            if (currentUser == null) {
+                Toast.makeText(getContext(), "Používateľ nie je prihlásený", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-            db.collection("transactions")
-                    .add(data)
-                    .addOnSuccessListener(documentReference ->
-                            Toast.makeText(getContext(), "Údaje uložené", Toast.LENGTH_SHORT).show())
-                    .addOnFailureListener(e ->
-                            Toast.makeText(getContext(), "Chyba pri ukladaní", Toast.LENGTH_SHORT).show());
+            String userId = currentUser.getUid();
+
+            // Check if user document exists
+            db.collection("users").document(userId).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document == null || !document.exists()) {
+                        // Create new user document
+                        Map<String, Object> userData = new HashMap<>();
+                        userData.put("userId", userId);  // Explicitne ulož userId do dokumentu
+                        userData.put("createdAt", Calendar.getInstance().getTime());
+                        db.collection("users").document(userId).set(userData)
+                                .addOnSuccessListener(aVoid -> Toast.makeText(getContext(), "Používateľ vytvorený v users", Toast.LENGTH_SHORT).show())
+                                .addOnFailureListener(e -> Toast.makeText(getContext(), "Chyba pri vytváraní používateľa: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                    }
+                    // After ensuring user document exists, add transaction
+                    Map<String, Object> data = new HashMap<>();
+                    data.put("date", date);
+                    data.put("category", category);
+                    data.put("title", title);
+                    data.put("amount", amount);
+                    data.put("userId", userId);
+
+                    db.collection("transactions")
+                            .add(data)
+                            .addOnSuccessListener(documentReference ->
+                                    Toast.makeText(getContext(), "Údaje uložené", Toast.LENGTH_SHORT).show())
+                            .addOnFailureListener(e ->
+                                    Toast.makeText(getContext(), "Chyba pri ukladaní", Toast.LENGTH_SHORT).show());
+                } else {
+                    Toast.makeText(getContext(), "Chyba pri načítaní používateľa", Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
         return view;
