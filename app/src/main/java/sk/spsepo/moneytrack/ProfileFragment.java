@@ -138,7 +138,6 @@ public class ProfileFragment extends Fragment {
         userData.put("priezvisko", surname);
         userData.put("vek", age);
         userData.put("prezyvka", nickname);
-        // Ak chceš, pridaj aj ukladanie profileImageUrl
 
         DocumentReference docRef = db.collection("users").document(user.getUid());
 
@@ -152,7 +151,5 @@ public class ProfileFragment extends Fragment {
                 Log.e("ProfileFragment", "Firestore save error", e);
             });
 
-        // Ak chceš, môžeš sem pridať upload obrázka do Firebase Storage a uložiť URL do Firestore
-        // (upload obrázka zatiaľ nechávame mimo, len vyber a zobrazíme)
     }
 }
