@@ -1,5 +1,7 @@
 package sk.spsepo.moneytrack;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -63,6 +66,11 @@ public class SettingsFragment extends Fragment {
     private Switch switchNotifications;
     private RadioGroup languageGroup;
     private RadioGroup themeGroup;
+    private RadioButton langSlovak;
+    private RadioButton langEnglish;
+    private RadioButton themeLight;
+    private RadioButton themeDark;
+    private RadioButton themeAuto;
 
     @Nullable
     @Override
@@ -70,47 +78,63 @@ public class SettingsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
+        SharedPreferences prefs = requireContext().getSharedPreferences("app_settings", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
         // Inicializácia UI komponentov
         switchNotifications = view.findViewById(R.id.switchNotifications);
         languageGroup = view.findViewById(R.id.languageGroup);
         themeGroup = view.findViewById(R.id.themeGroup);
 
-        // Nastavenie predvolených hodnôt
-        switchNotifications.setChecked(true); // Notifikácie zapnuté
-        ((RadioButton) view.findViewById(R.id.langSlovak)).setChecked(true); // Slovenčina
+        langSlovak = view.findViewById(R.id.langSlovak);
+        langEnglish = view.findViewById(R.id.langEnglish);
 
-        // Nastavenie témy podľa aktuálneho módu aplikácie/systému
-        int currentNightMode = getResources().getConfiguration().uiMode &
-                android.content.res.Configuration.UI_MODE_NIGHT_MASK;
-        switch (currentNightMode) {
-            case android.content.res.Configuration.UI_MODE_NIGHT_NO:
-                ((RadioButton) view.findViewById(R.id.themeLight)).setChecked(true);
+        themeLight = view.findViewById(R.id.themeLight);
+        themeDark = view.findViewById(R.id.themeDark);
+        themeAuto = view.findViewById(R.id.themeAuto);
+
+        // Načítanie uložených hodnôt
+        switchNotifications.setChecked(prefs.getBoolean("notifications", true));
+        if (prefs.getString("language", "sk").equals("sk")) {
+            langSlovak.setChecked(true);
+        } else {
+            langEnglish.setChecked(true);
+        }
+        String themePref = prefs.getString("theme", "auto");
+        switch (themePref) {
+            case "light":
+                themeLight.setChecked(true);
                 break;
-            case android.content.res.Configuration.UI_MODE_NIGHT_YES:
-                ((RadioButton) view.findViewById(R.id.themeDark)).setChecked(true);
+            case "dark":
+                themeDark.setChecked(true);
                 break;
             default:
-                ((RadioButton) view.findViewById(R.id.themeAuto)).setChecked(true);
+                themeAuto.setChecked(true);
                 break;
         }
 
-        // Pridanie jednoduchých listenerov (len pre príklad)
-        switchNotifications.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            // TODO: implementovať uloženie stavu
-        });
-
-        languageGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            // TODO: implementovať zmenu jazyka
-        });
-
+        // Reakcia na zmenu témy
         themeGroup.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.themeLight) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                editor.putString("theme", "light").apply();
             } else if (checkedId == R.id.themeDark) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                editor.putString("theme", "dark").apply();
             } else if (checkedId == R.id.themeAuto) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                editor.putString("theme", "auto").apply();
             }
+            requireActivity().recreate();
+        });
+
+        // Uloženie ostatných nastavení ihneď po zmene
+        switchNotifications.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            editor.putBoolean("notifications", isChecked).apply();
+        });
+
+        languageGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            editor.putString("language", checkedId == R.id.langSlovak ? "sk" : "en").apply();
         });
 
         return view;
