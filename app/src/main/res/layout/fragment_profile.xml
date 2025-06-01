@@ -1,70 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp">
+    android:padding="24dp"
+    android:background="?attr/background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/profileImageView"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/default_profile"
-            android:scaleType="centerCrop"
-            android:background="@drawable/circle_mask"
-            android:clipToOutline="true"
-            android:contentDescription="Profilová fotka" />
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginTop="16dp"
+            android:contentDescription="Profilová fotka"
+            android:src="@drawable/default_profile" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/changePhotoButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Zmeniť fotku"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="12dp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 
-        <EditText
-            android:id="@+id/nameEditText"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nameInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Meno"
-            android:inputType="textPersonName"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="24dp"
+            android:hint="Meno">
 
-        <EditText
-            android:id="@+id/surnameEditText"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/surnameInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Priezvisko"
-            android:inputType="textPersonName"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="12dp"
+            android:hint="Priezvisko">
 
-        <EditText
-            android:id="@+id/ageEditText"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/surnameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/ageInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Vek"
-            android:inputType="number"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="12dp"
+            android:hint="Vek">
 
-        <EditText
-            android:id="@+id/nicknameEditText"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ageEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nicknameInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Prezývka"
-            android:inputType="textPersonName"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="12dp"
+            android:hint="Prezývka">
 
-        <Button
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nicknameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/saveProfileButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Uložiť profil"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="24dp"
+            style="@style/Widget.MaterialComponents.Button" />
+
     </LinearLayout>
 </ScrollView>

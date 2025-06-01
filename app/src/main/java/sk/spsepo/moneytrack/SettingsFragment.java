@@ -10,6 +10,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.Toast;
+import android.widget.TextView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -136,6 +139,15 @@ public class SettingsFragment extends Fragment {
         languageGroup.setOnCheckedChangeListener((group, checkedId) -> {
             editor.putString("language", checkedId == R.id.langSlovak ? "sk" : "en").apply();
         });
+
+        // Zobrazenie emailu aktuálneho používateľa (Firebase)
+        TextView textViewEmail = view.findViewById(R.id.textViewEmail);
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null && currentUser.getEmail() != null) {
+            textViewEmail.setText("Email: " + currentUser.getEmail());
+        } else {
+            textViewEmail.setText("Nie ste prihlásený");
+        }
 
         return view;
     }

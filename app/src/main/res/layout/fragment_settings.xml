@@ -2,7 +2,9 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp">
+    android:padding="24dp"
+    android:scrollbars="none"
+    android:fadeScrollbars="false">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -44,8 +46,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="🌐 Zmeniť jazyk"
-            android:textSize="16sp"
-            android:paddingTop="16dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:paddingTop="24dp"
             android:paddingBottom="8dp" />
 
         <RadioGroup
@@ -73,8 +76,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="🎨 Téma aplikácie"
-            android:textSize="16sp"
-            android:paddingTop="16dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:paddingTop="24dp"
             android:paddingBottom="8dp" />
 
         <RadioGroup
@@ -101,6 +105,79 @@
                 android:layout_height="wrap_content"
                 android:text="Auto" />
         </RadioGroup>
+
+        <!-- Používateľský účet -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="👤 Účet"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:paddingTop="24dp"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:id="@+id/textViewEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Email: user@example.com"
+            android:textSize="16sp"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Správa účtu"
+            android:textColor="?attr/colorPrimary"
+            android:paddingBottom="16dp" />
+
+        <!-- Synchronizácia -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🔄 Synchronizácia"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Posledná synchronizácia: dnes"
+            android:textSize="16sp"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Synchronizovať teraz"
+            android:textColor="?attr/colorPrimary"
+            android:paddingBottom="16dp" />
+
+        <!-- Informácie o aplikácii -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ℹ️ Informácie o aplikácii"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Verzia: 4.9.2"
+            android:textSize="16sp"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Podmienky používania"
+            android:textColor="?attr/colorPrimary"
+            android:paddingBottom="16dp" />
 
     </LinearLayout>
 </ScrollView>
