@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Spinner;
+import android.widget.AdapterView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -129,6 +131,22 @@ public class HomeFragment extends Fragment {
         List<Transaction> transactionList = new ArrayList<>();
         TransactionAdapter adapter = new TransactionAdapter(transactionList);
         recyclerView.setAdapter(adapter);
+
+        Spinner sortSpinner = view.findViewById(R.id.sortSpinner);
+        sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view1, int position, long id) {
+                if (position == 1) {
+                    transactionList.sort((a, b) -> Float.compare(Float.parseFloat(a.amount), Float.parseFloat(b.amount)));
+                } else if (position == 2) {
+                    transactionList.sort((a, b) -> Float.compare(Float.parseFloat(b.amount), Float.parseFloat(a.amount)));
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
