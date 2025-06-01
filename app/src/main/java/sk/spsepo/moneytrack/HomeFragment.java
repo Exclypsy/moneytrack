@@ -47,36 +47,34 @@ public class HomeFragment extends Fragment {
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             TextView titleTextView, categoryTextView, dateTextView, amountTextView;
-            ImageView menuIcon;
-
             public ViewHolder(View itemView) {
                 super(itemView);
                 titleTextView = itemView.findViewById(R.id.textViewTitle);
                 categoryTextView = itemView.findViewById(R.id.textViewCategory);
                 dateTextView = itemView.findViewById(R.id.textViewDate);
                 amountTextView = itemView.findViewById(R.id.textViewAmount);
-                menuIcon = itemView.findViewById(R.id.menuIcon);
 
-                menuIcon.setOnClickListener(v -> {
-                    PopupMenu popup = new PopupMenu(itemView.getContext(), menuIcon);
+                itemView.setOnLongClickListener(v -> {
+                    PopupMenu popup = new PopupMenu(itemView.getContext(), itemView);
                     popup.getMenuInflater().inflate(R.menu.transaction_item_menu, popup.getMenu());
                     popup.setOnMenuItemClickListener(item -> {
-                        if (item.getItemId() == R.id.action_delete) {
-                            int position = getAdapterPosition();
-                            if (position != RecyclerView.NO_POSITION) {
-                                Transaction transaction = transactions.get(position);
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            Transaction transaction = transactions.get(position);
+                            if (item.getItemId() == R.id.action_delete) {
                                 FirebaseFirestore.getInstance().collection("transactions").document(transaction.id)
                                     .delete()
                                     .addOnSuccessListener(aVoid -> {
                                         transactions.remove(position);
                                         notifyItemRemoved(position);
                                     });
+                                return true;
                             }
-                            return true;
                         }
                         return false;
                     });
                     popup.show();
+                    return true;
                 });
             }
 
