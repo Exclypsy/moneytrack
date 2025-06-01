@@ -4,11 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +19,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.fragment.app.Fragment;
 
 public class HomeFragment extends Fragment {
 
@@ -68,6 +70,20 @@ public class HomeFragment extends Fragment {
                                         transactions.remove(position);
                                         notifyItemRemoved(position);
                                     });
+                                return true;
+                            } else if (item.getItemId() == R.id.action_edit) {
+                                Bundle bundle = new Bundle();
+                                bundle.putString("transactionId", transaction.id);
+
+                                EditTransactionFragment editFragment = new EditTransactionFragment();
+                                editFragment.setArguments(bundle);
+
+                                FragmentManager fragmentManager = ((AppCompatActivity) itemView.getContext()).getSupportFragmentManager();
+                                fragmentManager.beginTransaction()
+                                    .replace(R.id.homeContent, editFragment)
+                                    .addToBackStack(null)
+                                    .commit();
+
                                 return true;
                             }
                         }
