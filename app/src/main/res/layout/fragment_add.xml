@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="24dp"
-        android:background="@android:color/white"
+        android:background="?attr/background"
         android:gravity="center_horizontal"
         android:layout_gravity="center">
 
