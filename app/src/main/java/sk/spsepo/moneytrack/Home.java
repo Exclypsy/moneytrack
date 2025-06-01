@@ -113,5 +113,10 @@ public class Home extends AppCompatActivity {
             }
             return false;
         });
+        // Set default fragment to HomeFragment on app start
+        getSupportFragmentManager()
+            .beginTransaction()
+            .replace(R.id.homeContent, new HomeFragment())
+            .commit();
     }
 }
