@@ -6,11 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".HomeFragment">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Domov"
+        android:textSize="24sp"
+        android:padding="24dp"
+        android:textStyle="bold"
+        android:paddingBottom="16dp" />
+
     <Spinner
         android:id="@+id/sortSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:entries="@array/sort_options"/>
 
     <androidx.recyclerview.widget.RecyclerView

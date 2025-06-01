@@ -12,6 +12,14 @@
         android:orientation="vertical"
         android:gravity="center_horizontal">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Profil"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:paddingBottom="16dp" />
+
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/profileImageView"
             android:layout_width="140dp"
