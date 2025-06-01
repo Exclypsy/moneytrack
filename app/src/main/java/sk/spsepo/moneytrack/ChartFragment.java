@@ -79,6 +79,9 @@ public class ChartFragment extends Fragment {
                     float[] monthlySums = new float[12];
                     java.util.Map<Integer, java.util.Map<String, Float>> dailyCategorySums = new java.util.HashMap<>();
 
+                    java.util.Map<String, Float> categorySums = new java.util.HashMap<>();
+                    java.util.Map<Integer, Float> dailyTotal = new java.util.HashMap<>();
+
                     for (com.google.firebase.firestore.QueryDocumentSnapshot doc : query) {
                         String dateStr = doc.getString("date");
                         String amountStr = doc.getString("amount");
@@ -94,12 +97,14 @@ public class ChartFragment extends Fragment {
 
                             if (year == currentYear) {
                                 monthlySums[month - 1] += amount;
+                                categorySums.put(category, categorySums.getOrDefault(category, 0f) + amount);
                             }
 
                             if (year == currentYear && month == currentMonth) {
                                 java.util.Map<String, Float> categoryMap = dailyCategorySums.getOrDefault(day, new java.util.HashMap<>());
                                 categoryMap.put(category, categoryMap.getOrDefault(category, 0f) + amount);
                                 dailyCategorySums.put(day, categoryMap);
+                                dailyTotal.put(day, dailyTotal.getOrDefault(day, 0f) + amount);
                             }
                         } catch (Exception ignored) {}
                     }
@@ -146,13 +151,47 @@ public class ChartFragment extends Fragment {
 
                     script.append("monthChart.legend(true);");
                     script.append("monthChart.draw();");
+
+                    // Pie chart for category distribution
+                    script.append("var categoryData = [");
+                    java.util.Iterator<java.util.Map.Entry<String, Float>> catIter = categorySums.entrySet().iterator();
+                    while (catIter.hasNext()) {
+                        java.util.Map.Entry<String, Float> entry = catIter.next();
+                        script.append("{x:'").append(entry.getKey()).append("', value:").append(entry.getValue()).append("}");
+                        if (catIter.hasNext()) script.append(", ");
+                    }
+                    script.append("];");
+                    script.append("var pieChart = anychart.pie(categoryData);");
+                    script.append("pieChart.title('Rozdelenie výdavkov podľa kategórie');");
+                    script.append("pieChart.container('categoryChart');");
+                    script.append("pieChart.draw();");
+
+                    // Line chart for daily spending trend
+                    script.append("var trendChart = anychart.line();");
+                    script.append("trendChart.title('Denný vývoj výdavkov');");
+                    script.append("var lineData = [");
+                    java.util.List<Integer> trendDays = new java.util.ArrayList<>(dailyTotal.keySet());
+                    java.util.Collections.sort(trendDays);
+                    for (int i = 0; i < trendDays.size(); i++) {
+                        int day = trendDays.get(i);
+                        float total = dailyTotal.get(day);
+                        script.append("{x:'").append(day).append("', value:").append(total).append("}");
+                        if (i < trendDays.size() - 1) script.append(", ");
+                    }
+                    script.append("];");
+                    script.append("trendChart.data(lineData);");
+                    script.append("trendChart.container('trendChart');");
+                    script.append("trendChart.draw();");
+
                     script.append("});");
 
                     String html = "<html><head>" +
                             "<script src='https://cdn.anychart.com/releases/8.11.0/js/anychart-bundle.min.js'></script>" +
                             "</head><body>" +
-                            "<div id='yearChart' style='width:100%;height:45%'></div>" +
-                            "<div id='monthChart' style='width:100%;height:45%'></div>" +
+                            "<div id='yearChart' style='width:100%;height:40%;margin-bottom:16px;'></div>" +
+                            "<div id='monthChart' style='width:100%;height:40%;margin-bottom:16px;'></div>" +
+                            "<div id='categoryChart' style='width:100%;height:40%;margin-bottom:16px;'></div>" +
+                            "<div id='trendChart' style='width:100%;height:40%;margin-bottom:16px;'></div>" +
                             "<script>" + script + "</script>" +
                             "</body></html>";
 
