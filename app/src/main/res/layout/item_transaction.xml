@@ -15,18 +15,6 @@
         android:layout_centerVertical="true"
         android:padding="8dp" />
 
-    <!-- Suma + znak € vedľa tri bodky -->
-    <TextView
-        android:id="@+id/textViewAmount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="10,00 €"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_toEndOf="@id/menuIcon"
-        android:layout_marginStart="12dp"
-        android:layout_centerVertical="true" />
-
     <!-- Vertikálny layout pre Title a Category -->
     <LinearLayout
         android:id="@+id/textContainer"
@@ -54,14 +42,27 @@
             android:textColor="#888888" />
     </LinearLayout>
 
-    <!-- Dátum malým písmom vpravo dole -->
-    <TextView
-        android:id="@+id/textViewDate"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2024-05-31"
-        android:textSize="12sp"
-        android:textColor="#888888"
+        android:orientation="vertical"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true" />
+        android:layout_centerVertical="true">
+
+        <TextView
+            android:id="@+id/textViewAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10,00 €"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textViewDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2024-05-31"
+            android:textSize="12sp"
+            android:textColor="#888888" />
+    </LinearLayout>
 </RelativeLayout>
