@@ -1,14 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SettingsFragment">
+    android:padding="24dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-</FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nastavenia"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:paddingBottom="16dp" />
+
+        <!-- Notifikácie s prepínačom -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingVertical="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="🔔 Notifikácie"
+                android:textSize="16sp" />
+
+            <Switch
+                android:id="@+id/switchNotifications"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true" />
+        </LinearLayout>
+
+        <!-- Jazykový výber -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🌐 Zmeniť jazyk"
+            android:textSize="16sp"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp" />
+
+        <RadioGroup
+            android:id="@+id/languageGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/langSlovak"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Slovenčina"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/langEnglish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="English" />
+        </RadioGroup>
+
+        <!-- Výber témy -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🎨 Téma aplikácie"
+            android:textSize="16sp"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp" />
+
+        <RadioGroup
+            android:id="@+id/themeGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/themeLight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Svetlá" />
+
+            <RadioButton
+                android:id="@+id/themeDark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tmavá" />
+
+            <RadioButton
+                android:id="@+id/themeAuto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Auto" />
+        </RadioGroup>
+
+    </LinearLayout>
+</ScrollView>

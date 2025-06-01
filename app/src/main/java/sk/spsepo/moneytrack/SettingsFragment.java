@@ -1,12 +1,17 @@
 package sk.spsepo.moneytrack;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Switch;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.fragment.app.Fragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,10 +60,59 @@ public class SettingsFragment extends Fragment {
         }
     }
 
+    private Switch switchNotifications;
+    private RadioGroup languageGroup;
+    private RadioGroup themeGroup;
+
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+
+        // Inicializácia UI komponentov
+        switchNotifications = view.findViewById(R.id.switchNotifications);
+        languageGroup = view.findViewById(R.id.languageGroup);
+        themeGroup = view.findViewById(R.id.themeGroup);
+
+        // Nastavenie predvolených hodnôt
+        switchNotifications.setChecked(true); // Notifikácie zapnuté
+        ((RadioButton) view.findViewById(R.id.langSlovak)).setChecked(true); // Slovenčina
+
+        // Nastavenie témy podľa aktuálneho módu aplikácie/systému
+        int currentNightMode = getResources().getConfiguration().uiMode &
+                android.content.res.Configuration.UI_MODE_NIGHT_MASK;
+        switch (currentNightMode) {
+            case android.content.res.Configuration.UI_MODE_NIGHT_NO:
+                ((RadioButton) view.findViewById(R.id.themeLight)).setChecked(true);
+                break;
+            case android.content.res.Configuration.UI_MODE_NIGHT_YES:
+                ((RadioButton) view.findViewById(R.id.themeDark)).setChecked(true);
+                break;
+            default:
+                ((RadioButton) view.findViewById(R.id.themeAuto)).setChecked(true);
+                break;
+        }
+
+        // Pridanie jednoduchých listenerov (len pre príklad)
+        switchNotifications.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            // TODO: implementovať uloženie stavu
+        });
+
+        languageGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            // TODO: implementovať zmenu jazyka
+        });
+
+        themeGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.themeLight) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            } else if (checkedId == R.id.themeDark) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            } else if (checkedId == R.id.themeAuto) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+            }
+        });
+
+        return view;
     }
 }
