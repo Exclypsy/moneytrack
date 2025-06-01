@@ -4,17 +4,6 @@
     android:layout_height="wrap_content"
     android:padding="12dp">
 
-    <!-- Tri bodky vľavo -->
-    <ImageView
-        android:id="@+id/menuIcon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@drawable/dots_menu"
-        android:contentDescription="Menu"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:padding="8dp" />
-
     <!-- Vertikálny layout pre Title a Category -->
     <LinearLayout
         android:id="@+id/textContainer"
@@ -65,4 +54,17 @@
             android:textSize="12sp"
             android:textColor="#888888" />
     </LinearLayout>
+
+    <!-- Tri bodky vľavo -->
+    <ImageView
+        android:id="@+id/menuIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/dots_menu"
+        android:contentDescription="Menu"
+        android:layout_toEndOf="@id/textViewDate"
+        android:layout_alignTop="@id/textViewAmount"
+        android:layout_marginStart="8dp"
+        android:layout_alignParentEnd="true"
+        android:padding="8dp" />
 </RelativeLayout>
