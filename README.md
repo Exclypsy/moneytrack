@@ -1,4 +1,4 @@
-# 💸 moneytrack
+# 💸 MoneyTrack
 
 **moneytrack** is a simple expense tracking application developed in **Java**. It enables users to log and manage their daily expenses, all securely stored in **Google Firebase Firestore**.
 
